@@ -5,13 +5,27 @@ pipeline {
       args '--user root -v /var/run/docker.sock:/var/run/docker.sock' // mount Docker socket to access the host's Docker daemon
     }
   }
+  environment {
+    GIT_REPO_URL = 'https://github.com/Uthmika2000/Jenkins-Exercise-Practice.git'
+  }
   stages {
     stage('Checkout') {
       steps {
-        sh 'echo passed'
-        //git branch: 'main', url: 'https://github.com/Uthmika2000/Jenkins-Exercise-Practice.git'
+        script {
+          // Provide Git credentials using the GitHub token
+          withCredentials([file(credentialsId: 'github', variable: 'GIT_TOKEN')]) {
+            sh "git clone ${GIT_REPO_URL}"
+          }
+        }
       }
     }
+  // stages {
+  //   stage('Checkout') {
+  //     steps {
+  //       sh 'echo passed'
+  //       //git branch: 'main', url: 'https://github.com/Uthmika2000/Jenkins-Exercise-Practice.git'
+  //     }
+  //   }
     stage('Build and Test') {
       steps {
         sh 'ls -ltr'
