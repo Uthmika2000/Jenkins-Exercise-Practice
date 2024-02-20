@@ -13,7 +13,7 @@ pipeline {
       steps {
         script {
           // Provide Git credentials using the GitHub token
-          withCredentials([file(credentialsId: 'github', variable: 'GIT_TOKEN')]) {
+          withCredentials([file(credentialsId: 'jenkins', variable: 'GIT_TOKEN')]) {
             sh "git clone ${GIT_REPO_URL}"
           }
         }
